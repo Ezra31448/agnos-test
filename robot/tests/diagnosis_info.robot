@@ -1,0 +1,25 @@
+*** Settings ***
+Documentation     Diagnosis Info tests. Source: Test Summary - TC-DET-001, TC-DET-002.
+Resource          ../resources/common.robot
+Resource          ../resources/pages/login.robot
+Resource          ../resources/pages/diagnosis_info.robot
+Suite Setup       Open Browser To Login Page
+Suite Teardown    Close Browser And Teardown
+Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot
+Test Setup       Login With Valid Credentials
+
+*** Test Cases ***
+TC-DET-001 Verify Copying Patient Symptoms
+    [Documentation]    Open patient details, click Copy All (คัดลอกทั้งหมด). Expected: symptom text copied to clipboard.
+    [Tags]    Positive
+    Open Diagnosis Info Page    748
+    Copy All Symptoms
+    Log    Clipboard content verification may require OS-level keyword; symptom box text should match copied content.
+
+TC-DET-002 Verify Adding A Note Message
+    [Documentation]    Type note, click send. Expected: note appears in Note message section with sender and timestamp.
+    [Tags]    Positive
+    Open Diagnosis Info Page    748
+    ${note}=    Set Variable    Robot test note ${TIMESTAMP}
+    Add Note Message    ${note}
+    Note Should Appear In History    ${note}

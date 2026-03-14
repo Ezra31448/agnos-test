@@ -1,6 +1,5 @@
 *** Settings ***
-Resource    ../common.robot
-Resource    ../../config/config.robot
+Resource    ${CURDIR}${/}..${/}common.resource
 
 *** Keywords ***
 Fill Sign Up Form
@@ -12,8 +11,11 @@ Fill Sign Up Form
     Input Password    ${SIGNUP_CONFIRM_INPUT}    ${confirm_password}
 
 Submit Sign Up Form
-    [Documentation]    Clicks the Confirm button on sign-up form.
-    Click Element    ${SIGNUP_CONFIRM_BTN}
+    [Documentation]    Clicks the Confirm button on sign-up form. Scrolls into view and uses JS click to avoid overlay interception.
+    Scroll Element Into View    ${SIGNUP_CONFIRM_BTN}
+    Wait Until Element Is Visible    ${SIGNUP_CONFIRM_BTN}    timeout=5s
+    ${btn}=    Get WebElement    ${SIGNUP_CONFIRM_BTN}
+    Execute JavaScript    arguments[0].click();    ARGUMENTS    ${btn}
 
 Register With Valid Data
     [Documentation]    Fills and submits sign-up with valid email and password (same for confirm).

@@ -1,21 +1,22 @@
 *** Settings ***
-Resource    ../config/config.robot
+Resource    ${CURDIR}${/}..${/}config${/}config.resource
 Library     SeleniumLibrary    implicit_wait=${IMPLICIT_WAIT}
 
 *** Keywords ***
 Open Browser To Login Page
-    [Documentation]    Opens browser and navigates to the login page. Uses headless Chrome when CI=true.
-    Run Keyword If    '${CI}'=='true'    Open Browser    ${LOGIN_URL}    Chrome    options=add_argument("--headless");add_argument("--no-sandbox");add_argument("--disable-gpu");add_argument("--window-size=1920,1080")
-    ...    ELSE    Open Browser    ${LOGIN_URL}    ${BROWSER}
+    [Documentation]    Opens browser and navigates to the login page. Uses headless Chrome when CI=true. Blocks location permission prompt.
+    Run Keyword If    '${CI}'=='true'    Open Browser    ${LOGIN_URL}    Chrome    options=add_argument("--headless");add_argument("--no-sandbox");add_argument("--disable-gpu");add_argument("--window-size=1920,1080");add_argument("--deny-permission-prompts")
+    ...    ELSE    Open Browser    ${LOGIN_URL}    ${BROWSER}    options=add_argument("--deny-permission-prompts")
     Maximize Browser Window
     Set Selenium Speed    0.2s
 
 Open Browser To Sign Up Page
-    [Documentation]    Opens browser and navigates to the sign-up page. Uses headless Chrome when CI=true.
+    [Documentation]    Opens browser and navigates to the sign-up page. Uses headless Chrome when CI=true. Waits for sign-up form up to SIGNUP_PAGE_WAIT.
     Run Keyword If    '${CI}'=='true'    Open Browser    ${SIGN_UP_URL}    Chrome    options=add_argument("--headless");add_argument("--no-sandbox");add_argument("--disable-gpu");add_argument("--window-size=1920,1080")
     ...    ELSE    Open Browser    ${SIGN_UP_URL}    ${BROWSER}
     Maximize Browser Window
     Set Selenium Speed    0.2s
+    Wait Until Element Is Visible    ${SIGNUP_EMAIL_INPUT}    timeout=${SIGNUP_PAGE_WAIT}
 
 Open Browser To Dashboard
     [Documentation]    Opens browser and navigates to the dashboard (assumes login required separately). Uses headless when CI=true.
@@ -51,8 +52,8 @@ Ensure On Dashboard
     Wait Until Page Contains Element    ${DASHBOARD_SEARCH_INPUT}    timeout=${EXPLICIT_WAIT}
 
 Click Outside To Trigger Validation
-    [Documentation]    Clicks elsewhere (e.g. body or label) to trigger blur validation.
-    Press Keys    body    \\9
+    [Documentation]    Triggers blur on the active element so validation runs (avoids body locator issues).
+    Execute JavaScript    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     Sleep    0.3s
 
 Element Should Show Error Message

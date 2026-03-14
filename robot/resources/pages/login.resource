@@ -1,6 +1,5 @@
 *** Settings ***
-Resource    ../common.robot
-Resource    ../../config/config.robot
+Resource    ${CURDIR}${/}..${/}common.resource
 
 *** Keywords ***
 Login With Credentials

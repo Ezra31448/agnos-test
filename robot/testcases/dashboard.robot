@@ -1,11 +1,12 @@
 *** Settings ***
 Documentation     Dashboard tests: Search, Filter, Export, Workflow. Source: Test Summary - TC-DASH-*, TC-EXP-*, TC-WF-*.
-Resource          ${CURDIR}${/}..${/}resources${/}common.resource
-Resource          ${CURDIR}${/}..${/}resources${/}pages${/}dashboard.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}common.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}pages${/}dashboard.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}pages${/}login.resource
 Suite Setup       Open Browser To Login Page
 Suite Teardown    Close Browser And Teardown
 Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot
-Test Setup        Dashboard.Login With Valid Credentials
+Test Setup        Login With Valid Credentials
 
 *** Test Cases ***
 TC-DASH-001 Verify Searching For A Record By Patient Name

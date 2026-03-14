@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Register (Sign-Up) tests. Source: Test Summary - TC-REG-001 to TC-REG-010.
-Resource          ${CURDIR}${/}..${/}resources${/}common.resource
-Resource          ${CURDIR}${/}..${/}resources${/}pages${/}sign_up.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}common.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}pages${/}sign_up.resource
 Suite Setup       Open Browser To Sign Up Page
 Suite Teardown    Close Browser And Teardown
 Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot
@@ -84,4 +84,4 @@ TC-REG-010 Verify Registration Fails With Already Registered Email
     [Tags]    Negative    Regression    test-1
     Ensure On Sign Up Page
     Register With Valid Data    ${REG_VALID_EMAIL}    ${REG_VALID_PASSWORD}
-    Element Should Show Error Message    already 
+    Element Should Show Error Message    already

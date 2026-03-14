@@ -2,20 +2,6 @@
 Resource    ${CURDIR}${/}..${/}common.resource
 
 *** Keywords ***
-Login With Valid Credentials
-    [Documentation]    ไปที่ landing → กด "เข้าใช้งานแอพพลิเคชั่น" → รอ /home → ไปหน้า ai_dashboard/login แล้วกรอกอีเมล/รหัสผ่าน. (Location ถูกบล็อก via browser options ใน Suite Setup)
-    [Arguments]    ${email}=${LOGIN_EMAIL}    ${password}=${LOGIN_PASSWORD}
-    Go To    ${LANDING_URL}
-    Wait Until Element Is Visible    ${LANDING_ENTER_APP_BTN}    timeout=${EXPLICIT_WAIT}
-    Click Element    ${LANDING_ENTER_APP_BTN}
-    Wait Until Location Contains    /home    timeout=${EXPLICIT_WAIT}
-    Go To    ${LOGIN_URL}
-    Wait Until Element Is Visible    ${LOGIN_EMAIL_INPUT}    timeout=${EXPLICIT_WAIT}
-    Input Text    ${LOGIN_EMAIL_INPUT}    ${email}
-    Input Password    ${LOGIN_PASSWORD_INPUT}    ${password}
-    Click Element    ${LOGIN_SUBMIT_BTN}
-    Wait Until Location Contains    ai_dashboard    timeout=${EXPLICIT_WAIT}
-
 Search By Patient Name
     [Documentation]    Types patient name in search bar and clicks Search.
     [Arguments]    ${patient_name}

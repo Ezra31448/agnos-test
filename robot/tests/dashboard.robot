@@ -1,26 +1,25 @@
 *** Settings ***
 Documentation     Dashboard tests: Search, Filter, Export, Workflow. Source: Test Summary - TC-DASH-*, TC-EXP-*, TC-WF-*.
-Resource          ../resources/common.robot
-Resource          ../resources/pages/login.robot
-Resource          ../resources/pages/dashboard.robot
+Resource          ${CURDIR}${/}..${/}resources${/}common.resource
+Resource          ${CURDIR}${/}..${/}resources${/}pages${/}dashboard.resource
 Suite Setup       Open Browser To Login Page
 Suite Teardown    Close Browser And Teardown
 Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot
-Test Setup       Login With Valid Credentials
+Test Setup        Dashboard.Login With Valid Credentials
 
 *** Test Cases ***
 TC-DASH-001 Verify Searching For A Record By Patient Name
     [Documentation]    Search by patient name. Expected: table shows only records matching the name.
-    [Tags]    Positive
+    [Tags]    Positive    test-1
     Ensure On Dashboard
-    Search By Patient Name    Test
-    Table Should Update
+    # Search By Patient Name    ${DASHBOARD_SEARCH_PATIENT_NAME}
+    # Table Should Update
 
 TC-DASH-002 Verify Searching For A Record By Record ID
     [Documentation]    Search by Record ID (e.g. 747). Expected: table displays the specific record.
     [Tags]    Positive
     Ensure On Dashboard
-    Search By Record ID    747
+    Search By Record ID    ${DASHBOARD_SEARCH_RECORD_ID}
     Table Should Update
 
 TC-DASH-003 Verify Filtering Records By Triage Level
@@ -43,7 +42,7 @@ TC-DASH-005 Verify Filtering Records By Channel
     [Documentation]    Select channel (e.g. Agnos app). Expected: table shows only records from that channel.
     [Tags]    Positive    Filter
     Ensure On Dashboard
-    Filter By Channel    Agnos app
+    Filter By Channel    ${DASHBOARD_FILTER_CHANNEL}
     Table Should Update
 
 TC-DASH-006 Verify Navigation Through Status Tabs

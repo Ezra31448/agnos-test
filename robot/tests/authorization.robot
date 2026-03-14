@@ -1,7 +1,7 @@
 *** Settings ***
 Documentation     Authorization (Login / Logout) tests. Source: Test Summary - TC-AUTH-001, TC-AUTH-002.
-Resource          ../resources/common.robot
-Resource          ../resources/pages/login.robot
+Resource          ${CURDIR}${/}..${/}resources${/}common.resource
+Resource          ${CURDIR}${/}..${/}resources${/}pages${/}login.resource
 Suite Setup       Open Browser To Login Page
 Suite Teardown    Close Browser And Teardown
 Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot

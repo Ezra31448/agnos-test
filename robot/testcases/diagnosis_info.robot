@@ -1,9 +1,9 @@
 *** Settings ***
 Documentation     Diagnosis Info tests. Source: Test Summary - TC-DET-001, TC-DET-002.
 Library           DateTime
-Resource          ${CURDIR}${/}..${/}resources${/}common.resource
-Resource          ${CURDIR}${/}..${/}resources${/}pages${/}login.resource
-Resource          ${CURDIR}${/}..${/}resources${/}pages${/}diagnosis_info.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}common.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}pages${/}login.resource
+Resource          ${CURDIR}${/}..${/}keywords${/}pages${/}diagnosis_info.resource
 Suite Setup       Open Browser To Login Page
 Suite Teardown    Close Browser And Teardown
 Test Teardown     Run Keyword If Test Failed    Capture Page Screenshot

@@ -1,12 +1,25 @@
 *** Settings ***
-Resource    ${CURDIR}${/}..${/}config${/}config.resource
+Resource    ${CURDIR}${/}..${/}resources${/}config.resource
+Resource    ${CURDIR}${/}..${/}resources${/}testdata.resource
+Resource    ${CURDIR}${/}..${/}resources${/}locators.resource
 Library     SeleniumLibrary    implicit_wait=${IMPLICIT_WAIT}
+Library     Collections
+Library     JSONLibrary
+Library     ${CURDIR}${/}..${/}scripts${/}browser_options.py
 
 *** Keywords ***
+Add Headless Chrome Arguments
+    [Arguments]    ${options}
+    Call Method    ${options}    add_argument    --headless
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-gpu
+    Call Method    ${options}    add_argument    --window-size\=1920,1080
+
 Open Browser To Login Page
-    [Documentation]    Opens browser and navigates to the login page. Uses headless Chrome when CI=true. Blocks location permission prompt.
-    Run Keyword If    '${CI}'=='true'    Open Browser    ${LOGIN_URL}    Chrome    options=add_argument("--headless");add_argument("--no-sandbox");add_argument("--disable-gpu");add_argument("--window-size=1920,1080");add_argument("--deny-permission-prompts")
-    ...    ELSE    Open Browser    ${LOGIN_URL}    ${BROWSER}    options=add_argument("--deny-permission-prompts")
+    [Documentation]    Opens browser with ChromeOptions from browser_options.py (ปิด password/leak warning). Headless เมื่อ CI=true.
+    ${options}=    Get Chrome Options
+    Run Keyword If    '${CI}'=='true'    Add Headless Chrome Arguments    ${options}
+    Open Browser    ${LOGIN_URL}    ${BROWSER}    options=${options}
     Maximize Browser Window
     Set Selenium Speed    0.2s
 

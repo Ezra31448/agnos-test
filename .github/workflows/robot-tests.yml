@@ -37,7 +37,7 @@ jobs:
           robot --variable CI:true \
                --outputdir robot/results \
                --loglevel INFO \
-               robot/tests/
+               robot/testcases/
 
       - name: Upload results
         if: always()
